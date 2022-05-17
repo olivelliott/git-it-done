@@ -33,6 +33,14 @@ var displayRepos = function(repos, searchTerm) {
         var titleEl = document.createElement("span");
         titleEl.textContent =repoName;
         repoEl.appendChild(titleEl);
+        var statusEl = document.createElement("span");
+        statusEl.classlist = "flex-row align-center";
+        if (repos[i].open_issues_count > 0) {
+            statusEl.innerHTML = "<i class='fas fa-times status-icon icon-danger'></i>" + repos[i].open_issues_count + "issue(s)";
+        } else {
+            statusEl.innerHTML = "<i class='fas fa-check-square status-icon icon-success'></i>";
+        }
+        repoEl.appendChild(statusEl);
         repoContainerEl.appendChild(repoEl);
     }
 }
