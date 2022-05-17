@@ -1,14 +1,16 @@
 var userFormEl = document.querySelector("#user-form");
-var nameInputEl = document.querySelector("#username")
+var nameInputEl = document.querySelector("#username");
+var repoContainerEl = document.querySelector("#repos-container");
+var repoSearchTerm = document.querySelector("#repo-search-term");
 
 var getUserRepos = function(user) {
     var apiUrl = "https://api.github.com/users/" + user + "/repos";
     fetch(apiUrl).then(function(response) {
         response.json().then(function(data) {
-            console.log(data)
+            displayRepos(data, user);
         });
     });
-}
+};
 
 var formSubmitHandler = function(event) {
     event.preventDefault();
@@ -18,6 +20,20 @@ var formSubmitHandler = function(event) {
         nameInputEl.value = "";
     } else {
         alert("Please enter a username")
+    }
+};
+
+var displayRepos = function(repos, searchTerm) {
+    repoContainerEl.textContent = "";
+    repoSearchTerm.textContent = searchTerm;
+    for (var i = 0; i < repos.length; i++) {
+        var repoName = repos[i].owner.login + "/" + repos[i].name;
+        var repoEl = document.createElement("div");
+        repoEl.classlist = "list-item flex-row justify-space-between align-center";
+        var titleEl = document.createElement("span");
+        titleEl.textContent =repoName;
+        repoEl.appendChild(titleEl);
+        repoContainerEl.appendChild(repoEl);
     }
 }
 
